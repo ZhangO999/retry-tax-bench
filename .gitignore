@@ -7,3 +7,10 @@ results/raw/
 results/summary/
 results/figures/
 results/v7/
+
+# Keep the current partial v7 experiment outputs tracked for sharing.
+!results/v7/
+!results/v7/raw/
+!results/v7/raw/**
+!results/v7/summary/
+!results/v7/summary/**
