@@ -1,0 +1,119 @@
+{
+  "metadata": {
+    "allocation": {
+      "amalgamate": "RC",
+      "balance": "RC",
+      "deposit_checking": "RC",
+      "transact_savings": "RC",
+      "write_check": "RC"
+    },
+    "elapsed_wall_seconds": 4.287153541925363,
+    "host": "MacBook-Pro-86.local",
+    "hotspot_probability": 0.9,
+    "measurement_seconds": 3.0,
+    "mpl": 1,
+    "policy": "rc",
+    "python": "3.11.3",
+    "raw_path": "results/v7_mini/raw/20260515T173336.448195+0000_rc_mpl1_bounded_1_p0p9_r1.json",
+    "repeat": 1,
+    "retry_limit": 1,
+    "retry_model": "bounded_1",
+    "seed": 3992,
+    "timestamp_utc": "2026-05-15T17:33:36.448195+00:00",
+    "warmup_seconds": 1.0
+  },
+  "metrics": {
+    "abort_rate_pct": 0.0,
+    "abort_reasons": {},
+    "aborts": 0,
+    "attempted_tps": 3542.6666666666665,
+    "attempts": 10628,
+    "by_isolation": {
+      "RC": {
+        "aborts": 0,
+        "attempts": 10628,
+        "committed": 10628,
+        "errors": 0
+      }
+    },
+    "by_transaction": {
+      "amalgamate": {
+        "aborts": 0,
+        "attempts": 2120,
+        "committed": 2120,
+        "errors": 0
+      },
+      "balance": {
+        "aborts": 0,
+        "attempts": 2120,
+        "committed": 2120,
+        "errors": 0
+      },
+      "deposit_checking": {
+        "aborts": 0,
+        "attempts": 2160,
+        "committed": 2160,
+        "errors": 0
+      },
+      "transact_savings": {
+        "aborts": 0,
+        "attempts": 2052,
+        "committed": 2052,
+        "errors": 0
+      },
+      "write_check": {
+        "aborts": 0,
+        "attempts": 2176,
+        "committed": 2176,
+        "errors": 0
+      }
+    },
+    "committed": 10628,
+    "committed_tps": 3542.6666666666665,
+    "error_rate_pct": 0.0,
+    "errors": 0,
+    "latency": {
+      "count": 10628,
+      "mean_ms": 0.2771092456613699,
+      "p50_ms": 0.2326875110156834,
+      "p95_ms": 0.4272232938092202
+    },
+    "latency_max_ms": 0.8814589818939567,
+    "latency_min_ms": 0.13979198411107063,
+    "observed_tps": 3542.6666666666665
+  },
+  "post_snapshot": {
+    "account_count": 18000,
+    "checking_count": 18000,
+    "checking_total": 1830613417,
+    "savings_count": 18000,
+    "savings_total": 1769401511,
+    "total_funds": 3600014928
+  },
+  "pre_snapshot": {
+    "account_count": 18000,
+    "checking_count": 18000,
+    "checking_total": 1800000000,
+    "savings_count": 18000,
+    "savings_total": 1800000000,
+    "total_funds": 3600000000
+  },
+  "smallbank": {
+    "account_count": 18000,
+    "amount_max": 10,
+    "amount_min": 1,
+    "hotspot_probability": 0.9,
+    "hotspot_size": 20,
+    "initial_checking": 100000,
+    "initial_savings": 100000
+  },
+  "validation": {
+    "account_count_ok": true,
+    "checking_count_ok": true,
+    "ok": true,
+    "post_total_funds": 3600014928,
+    "pre_total_funds": 3600000000,
+    "savings_count_ok": true,
+    "total_funds_delta": 14928
+  }
+}

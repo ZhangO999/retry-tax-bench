@@ -1,0 +1,35 @@
+{
+  "db": {
+    "host": "localhost",
+    "port": 5432,
+    "dbname": "oliverzhang",
+    "user": "oliverzhang",
+    "password": ""
+  },
+  "smallbank": {
+    "account_count": 18000,
+    "initial_savings": 100000,
+    "initial_checking": 100000,
+    "hotspot_size": 20,
+    "hotspot_probability": 0.7,
+    "amount_min": 1,
+    "amount_max": 10
+  },
+  "timing": {
+    "warmup_seconds": 30,
+    "measurement_seconds": 60
+  },
+  "matrix": {
+    "policies": ["rc", "si", "ssi", "mixed_robust"],
+    "mpl": [1, 8, 32, 64],
+    "retry_models": ["bounded_1", "bounded_3", "bounded_10", "unbounded"],
+    "hotspot_probabilities": [0.1, 0.5, 0.9],
+    "repeats": 5
+  },
+  "output": {
+    "raw_dir": "results/v7/raw",
+    "summary_csv": "results/v7/summary/run_summaries.csv",
+    "figures_dir": "results/v7/figures"
+  },
+  "seed": 3991
+}

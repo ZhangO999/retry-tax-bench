@@ -1,0 +1,30 @@
+{
+  "rc": {
+    "balance": "RC",
+    "deposit_checking": "RC",
+    "transact_savings": "RC",
+    "write_check": "RC",
+    "amalgamate": "RC"
+  },
+  "si": {
+    "balance": "SI",
+    "deposit_checking": "SI",
+    "transact_savings": "SI",
+    "write_check": "SI",
+    "amalgamate": "SI"
+  },
+  "ssi": {
+    "balance": "SSI",
+    "deposit_checking": "SSI",
+    "transact_savings": "SSI",
+    "write_check": "SSI",
+    "amalgamate": "SSI"
+  },
+  "mixed_robust": {
+    "balance": "SSI",
+    "deposit_checking": "RC",
+    "transact_savings": "SSI",
+    "write_check": "SSI",
+    "amalgamate": "SSI"
+  }
+}
