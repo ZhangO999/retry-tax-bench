@@ -131,6 +131,18 @@ def run_key(run: Run) -> Run:
     return (policy, int(mpl), retry_model, round(float(hotspot_probability), 6), int(repeat))
 
 
+def shard_runs(runs: list[Run], shard_index: int | None, shard_count: int | None) -> list[Run]:
+    if shard_index is None and shard_count is None:
+        return runs
+    if shard_index is None or shard_count is None:
+        raise ValueError("--shard-index and --shard-count must be provided together")
+    if shard_count < 1:
+        raise ValueError("--shard-count must be >= 1")
+    if not 0 <= shard_index < shard_count:
+        raise ValueError("--shard-index must satisfy 0 <= shard-index < shard-count")
+    return [run for index, run in enumerate(runs) if index % shard_count == shard_index]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Run the SmallBank experiment matrix.")
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
@@ -145,12 +157,19 @@ def main() -> int:
     parser.add_argument("--mini", action="store_true", help="Run a representative 32-cell v7 subset.")
     parser.add_argument("--pilot", action="store_true", help="Run the 216-cell figure-quality pilot matrix.")
     parser.add_argument("--micro-pilot", action="store_true", help="Run the 36-cell fast plotting/harness check.")
+    parser.add_argument("--shard-index", type=int, help="Run only this zero-based matrix shard.")
+    parser.add_argument("--shard-count", type=int, help="Total number of matrix shards.")
     args = parser.parse_args()
     if sum([args.smoke, args.mini, args.pilot, args.micro_pilot]) > 1:
         parser.error("--smoke, --mini, --pilot, and --micro-pilot are mutually exclusive")
 
     config = read_config(args.config)
     runs = planned_runs(config, args.smoke, args.mini, args.pilot, args.micro_pilot)
+    total_runs = len(runs)
+    try:
+        runs = shard_runs(runs, args.shard_index, args.shard_count)
+    except ValueError as exc:
+        parser.error(str(exc))
     output = config["output"]
     if args.pilot:
         args.raw_dir = args.raw_dir or "results/pilot/raw"
@@ -165,7 +184,12 @@ def main() -> int:
     summary_csv = Path(args.summary_csv or output["summary_csv"])
     completed = completed_runs(summary_csv) if args.resume else set()
     remaining = [run for run in runs if run_key(run) not in completed]
-    print(f"planned_runs={len(runs)} completed={len(completed)} remaining={len(remaining)}", flush=True)
+    shard = "all" if args.shard_index is None else f"{args.shard_index}/{args.shard_count}"
+    print(
+        f"planned_runs={total_runs} shard={shard} shard_runs={len(runs)} "
+        f"completed={len(completed)} remaining={len(remaining)}",
+        flush=True,
+    )
     for index, run in enumerate(remaining, start=1):
         cmd = build_command(args, config, run)
         print(f"[{index}/{len(remaining)}] {' '.join(cmd)}", flush=True)
