@@ -119,7 +119,7 @@ python3 experiment/harness.py --smoke
 
 ## Resume or restart the full matrix
 
-If Alan wants to rerun or continue the experiment, use:
+If client crashes or halts, to rerun or continue the experiment, use:
 
 ```bash
 scripts/run_v7_full.sh
