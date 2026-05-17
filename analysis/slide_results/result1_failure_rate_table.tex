@@ -1,0 +1,19 @@
+\documentclass[border=12pt]{standalone}
+\usepackage{booktabs}
+\usepackage{newtxtext}
+
+\begin{document}
+\begin{tabular}{lrrrr}
+\toprule
+Policy & 1 retry & 3 retries & 10 retries & Retry forever \\
+\midrule
+RC & $0.00 \pm 0.00\%$ & $0.00 \pm 0.00\%$ & $0.00 \pm 0.00\%$ & $0.00 \pm 0.00\%$ \\
+SI & $16.54 \pm 1.37\%$ & $7.35 \pm 0.55\%$ & $1.15 \pm 0.20\%$ & $0.00 \pm 0.00\%$ \\
+SSI & $10.22 \pm 0.79\%$ & $3.81 \pm 0.26\%$ & $0.27 \pm 0.02\%$ & $0.00 \pm 0.00\%$ \\
+Mixed-robust & $11.22 \pm 0.92\%$ & $3.99 \pm 0.33\%$ & $0.31 \pm 0.03\%$ & $0.00 \pm 0.00\%$ \\
+\bottomrule
+\end{tabular}
+
+\vspace{6pt}
+{\small \textsc{Table 1:} Mean failed user request rate at MPL 64 and hotspot probability 0.9. Values show mean $\pm$ 95\% confidence interval over 5 repeats.}
+\end{document}

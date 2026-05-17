@@ -81,6 +81,17 @@ The full matrix is:
 Run it from the repository root:
 
 ```bash
+scripts/run_v7_full.sh
+```
+
+This wrapper starts a `tmux` session when available, runs the matrix with
+`--resume` under `caffeinate`, then validates, aggregates, and plots if the
+matrix exits cleanly. Re-running the same script resumes from
+`results/v7/summary/run_summaries.csv`.
+
+The equivalent manual commands are:
+
+```bash
 python3 experiment/run_matrix.py --resume
 python3 experiment/validate_results.py results/v7/raw
 python3 experiment/aggregate_results.py

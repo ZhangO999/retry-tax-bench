@@ -1,13 +1,16 @@
 __pycache__/
 *.pyc
 .DS_Store
+.claude/
 logs/
+*.aux
+figures/slides/**/*.log
 
 results/raw/
 results/summary/
 results/figures/
 
-# Keep the current partial v7 experiment outputs tracked for sharing.
+# Keep the v7 experiment outputs tracked for sharing/review.
 !results/v7/
 !results/v7/raw/
 !results/v7/raw/**
