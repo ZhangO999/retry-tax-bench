@@ -14,7 +14,7 @@ def iter_json_files(path: Path):
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Validate raw harness result JSON files.")
-    parser.add_argument("path", nargs="?", type=Path, default=Path("results/v7/raw"))
+    parser.add_argument("path", nargs="?", type=Path, default=Path("results/main/raw"))
     args = parser.parse_args()
 
     total = 0

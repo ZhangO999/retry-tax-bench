@@ -4,15 +4,14 @@ __pycache__/
 .claude/
 logs/
 *.aux
-figures/slides/**/*.log
 
 results/raw/
 results/summary/
 results/figures/
 
-# Keep the v7 experiment outputs tracked for sharing/review.
-!results/v7/
-!results/v7/raw/
-!results/v7/raw/**
-!results/v7/summary/
-!results/v7/summary/**
+# Keep the final experiment outputs tracked for sharing/review.
+!results/main/
+!results/main/raw/
+!results/main/raw/**
+!results/main/summary/
+!results/main/summary/**

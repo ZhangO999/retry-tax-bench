@@ -25,17 +25,17 @@ def main() -> int:
         "inputs",
         nargs="*",
         type=Path,
-        help="Shard CSVs. Defaults to results/aws_v7/shards/*/run_summaries.csv.",
+        help="Shard CSVs. Defaults to results/aws/shards/*/run_summaries.csv.",
     )
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("results/aws_v7/summary/run_summaries.csv"),
+        default=Path("results/aws/summary/run_summaries.csv"),
     )
     parser.add_argument("--expected-rows", type=int, default=960)
     args = parser.parse_args()
 
-    inputs = args.inputs or sorted(Path("results/aws_v7/shards").glob("*/run_summaries.csv"))
+    inputs = args.inputs or sorted(Path("results/aws/shards").glob("*/run_summaries.csv"))
     if not inputs:
         raise SystemExit("No shard summaries found.")
 

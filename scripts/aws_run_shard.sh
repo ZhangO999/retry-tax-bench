@@ -11,11 +11,11 @@ SHARD_INDEX="$1"
 SHARD_COUNT="${2:-8}"
 SESSION="retry-tax-aws-${SHARD_INDEX}-of-${SHARD_COUNT}"
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-RAW_DIR="results/aws_v7/shards/${SHARD_INDEX}/raw"
-SUMMARY_CSV="results/aws_v7/shards/${SHARD_INDEX}/run_summaries.csv"
+RAW_DIR="results/aws/shards/${SHARD_INDEX}/raw"
+SUMMARY_CSV="results/aws/shards/${SHARD_INDEX}/run_summaries.csv"
 LOG_FILE="logs/aws_shard_${SHARD_INDEX}_of_${SHARD_COUNT}.log"
 
-mkdir -p "$REPO_DIR/logs" "$REPO_DIR/results/aws_v7/shards/${SHARD_INDEX}" "$REPO_DIR/results/aws_v7/summary"
+mkdir -p "$REPO_DIR/logs" "$REPO_DIR/results/aws/shards/${SHARD_INDEX}" "$REPO_DIR/results/aws/summary"
 
 if tmux has-session -t "$SESSION" 2>/dev/null; then
   echo "tmux session '$SESSION' already exists."

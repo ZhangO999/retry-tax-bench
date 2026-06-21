@@ -473,8 +473,8 @@ def main() -> int:
         args.repeat = 0
         args.warmup_seconds = 1.0
         args.measurement_seconds = 2.0
-        args.raw_dir = args.raw_dir or "results/v7_smoke/raw"
-        args.summary_csv = args.summary_csv or "results/v7_smoke/run_summaries.csv"
+        args.raw_dir = args.raw_dir or "results/smoke/raw"
+        args.summary_csv = args.summary_csv or "results/smoke/run_summaries.csv"
     result = run_once(args)
     metrics = result["metrics"]
     print(

@@ -2,8 +2,8 @@
   "db": {
     "host": "localhost",
     "port": 5432,
-    "dbname": "oliverzhang",
-    "user": "oliverzhang",
+    "dbname": "retrytaxbench",
+    "user": "",
     "password": ""
   },
   "smallbank": {
@@ -27,9 +27,9 @@
     "repeats": 5
   },
   "output": {
-    "raw_dir": "results/v7/raw",
-    "summary_csv": "results/v7/summary/run_summaries.csv",
-    "figures_dir": "results/v7/figures"
+    "raw_dir": "results/main/raw",
+    "summary_csv": "results/main/summary/run_summaries.csv",
+    "figures_dir": "results/main/figures"
   },
   "seed": 3991
 }

@@ -101,8 +101,8 @@ def plot_retry_sweep(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Generate experiment figures from aggregate.csv.")
-    parser.add_argument("--input", type=Path, default=Path("results/v7/summary/aggregate.csv"))
-    parser.add_argument("--figures-dir", type=Path, default=Path("results/v7/figures"))
+    parser.add_argument("--input", type=Path, default=Path("results/main/summary/aggregate.csv"))
+    parser.add_argument("--figures-dir", type=Path, default=Path("results/main/figures"))
     args = parser.parse_args()
 
     rows = load_rows(args.input)

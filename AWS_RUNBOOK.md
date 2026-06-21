@@ -1,6 +1,6 @@
 # AWS emergency runbook
 
-This is a clean, parallel AWS run of the v7 experiment. Treat it as a separate dataset from the Mac run. Do not merge Mac and AWS rows in the same final analysis unless Alan explicitly says that is acceptable.
+This is a clean, parallel AWS run of the experiment. Treat it as a separate dataset from the Mac run. Do not merge Mac and AWS rows in the same final analysis.
 
 ## Recommended setup
 
@@ -32,7 +32,7 @@ sudo apt-get install -y git
 Clone the repo branch:
 
 ```bash
-git clone --branch v7-experiment https://github.com/ZhangO999/retry-tax-bench.git
+git clone https://github.com/ZhangO999/retry-tax-bench.git
 cd retry-tax-bench
 ```
 
@@ -84,9 +84,9 @@ tail -f logs/aws_shard_0_of_8.log
 From your Mac, download each shard directory. Replace the hostnames with the public DNS/IP addresses from EC2:
 
 ```bash
-mkdir -p /Users/oliverzhang/Desktop/retry-tax-bench/results/aws_v7/shards
-rsync -avz -e "ssh -i /path/to/key.pem" ubuntu@EC2_HOST_0:~/retry-tax-bench/results/aws_v7/shards/0 /Users/oliverzhang/Desktop/retry-tax-bench/results/aws_v7/shards/
-rsync -avz -e "ssh -i /path/to/key.pem" ubuntu@EC2_HOST_1:~/retry-tax-bench/results/aws_v7/shards/1 /Users/oliverzhang/Desktop/retry-tax-bench/results/aws_v7/shards/
+mkdir -p ~/retry-tax-bench/results/aws/shards
+rsync -avz -e "ssh -i /path/to/key.pem" ubuntu@EC2_HOST_0:~/retry-tax-bench/results/aws/shards/0 ~/retry-tax-bench/results/aws/shards/
+rsync -avz -e "ssh -i /path/to/key.pem" ubuntu@EC2_HOST_1:~/retry-tax-bench/results/aws/shards/1 ~/retry-tax-bench/results/aws/shards/
 ```
 
 Repeat for shards `2` through `7`.
@@ -94,14 +94,14 @@ Repeat for shards `2` through `7`.
 Merge and verify:
 
 ```bash
-cd /Users/oliverzhang/Desktop/retry-tax-bench
+cd ~/retry-tax-bench
 python3 scripts/merge_shard_summaries.py
 ```
 
 Expected final merged CSV:
 
 ```text
-results/aws_v7/summary/run_summaries.csv
+results/aws/summary/run_summaries.csv
 ```
 
 ## Stop costs

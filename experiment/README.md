@@ -14,7 +14,7 @@ that are easier to make explicit in Python:
 
 ```text
 experiment/
-  config/experiment_matrix.json    full v7 960-run matrix and DB config
+  config/experiment_matrix.json    full 960-run matrix and DB config
   config/policies.json             RC, SI, SSI, mixed_robust allocations
   sql/schema.sql                   PostgreSQL schema
   smallbank/                       loader, sampler, policies, transactions
@@ -33,7 +33,7 @@ From the repository root:
 python3 -m pip install -r experiment/requirements.txt
 ```
 
-The default DB config expects local PostgreSQL with user/database `oliverzhang`.
+The default DB config expects local PostgreSQL with database `retrytaxbench` (override in the config if yours differs).
 Edit `experiment/config/experiment_matrix.json` if your local database differs.
 
 ## SmallBank Alignment
@@ -62,13 +62,13 @@ Run a three-cell smoke matrix:
 
 ```bash
 python3 experiment/run_matrix.py --smoke --warmup-seconds 1 --measurement-seconds 2 \
-  --raw-dir results/v7_smoke/raw \
-  --summary-csv results/v7_smoke/run_summaries.csv
-python3 experiment/validate_results.py results/v7_smoke/raw
+  --raw-dir results/smoke/raw \
+  --summary-csv results/smoke/run_summaries.csv
+python3 experiment/validate_results.py results/smoke/raw
 ```
 
 These commands reset and reload the SmallBank database before each measured
-cell. The smoke outputs live under `results/v7_smoke/`.
+cell. The smoke outputs live under `results/smoke/`.
 
 ## Full Experiment
 
@@ -81,19 +81,19 @@ The full matrix is:
 Run it from the repository root:
 
 ```bash
-scripts/run_v7_full.sh
+scripts/run_full_experiment.sh
 ```
 
 This wrapper starts a `tmux` session when available, runs the matrix with
 `--resume` under `caffeinate`, then validates, aggregates, and plots if the
 matrix exits cleanly. Re-running the same script resumes from
-`results/v7/summary/run_summaries.csv`.
+`results/main/summary/run_summaries.csv`.
 
 The equivalent manual commands are:
 
 ```bash
 python3 experiment/run_matrix.py --resume
-python3 experiment/validate_results.py results/v7/raw
+python3 experiment/validate_results.py results/main/raw
 python3 experiment/aggregate_results.py
 python3 experiment/plot_results.py
 ```
@@ -101,10 +101,10 @@ python3 experiment/plot_results.py
 Expected outputs:
 
 ```text
-results/v7/raw/*.json
-results/v7/summary/run_summaries.csv
-results/v7/summary/aggregate.csv
-results/v7/figures/*.png
+results/main/raw/*.json
+results/main/summary/run_summaries.csv
+results/main/summary/aggregate.csv
+results/main/figures/*.png
 ```
 
 ## Metrics

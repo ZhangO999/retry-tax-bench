@@ -27,9 +27,9 @@
     "repeats": 5
   },
   "output": {
-    "raw_dir": "results/aws_v7/raw",
-    "summary_csv": "results/aws_v7/summary/run_summaries.csv",
-    "figures_dir": "results/aws_v7/figures"
+    "raw_dir": "results/aws/raw",
+    "summary_csv": "results/aws/summary/run_summaries.csv",
+    "figures_dir": "results/aws/figures"
   },
   "seed": 3991
 }

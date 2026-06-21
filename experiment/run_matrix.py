@@ -154,7 +154,7 @@ def main() -> int:
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--resume", action="store_true", help="Skip cells already present in the summary CSV.")
     parser.add_argument("--smoke", action="store_true", help="Run three short cells, not the full matrix.")
-    parser.add_argument("--mini", action="store_true", help="Run a representative 32-cell v7 subset.")
+    parser.add_argument("--mini", action="store_true", help="Run a representative 32-cell subset.")
     parser.add_argument("--pilot", action="store_true", help="Run the 216-cell figure-quality pilot matrix.")
     parser.add_argument("--micro-pilot", action="store_true", help="Run the 36-cell fast plotting/harness check.")
     parser.add_argument("--shard-index", type=int, help="Run only this zero-based matrix shard.")
