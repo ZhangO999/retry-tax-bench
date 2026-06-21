@@ -1,36 +1,29 @@
 # RetryTaxBench
 
-**Measuring the hidden cost of retries in a database under load.**
-
-RetryTaxBench is a benchmarking tool for PostgreSQL that answers a practical
-question most database studies skip: *what happens when you can't keep retrying a
-failed transaction forever?*
+This repository contains the Python benchmarking program used to simulate the
+SmallBank workload under a similar setup as specified in Vandevoort, Fekete et al. 2025.
+It enforces a parameter **N** (which we henceforth call the **retry budget**) 
+and empirically measures its effects on the performance of the *REPMILA* allocation algorithm. 
 
 📄 **[Read the full report (PDF)](report/RetryTaxBench.pdf)** —
 *RetryTaxBench: Evaluating Isolation-Level Trade-offs under Bounded Retry on PostgreSQL.*
 
 ---
 
-## The idea in plain language
+## Introduction
 
-When two people touch the same data at the same time — say, two transfers from
-the same bank account — a database has to decide how careful to be. That setting
+When two people touch the same data at the same time, for instance, two transfers from
+the same bank account, a database has to decide how careful to be. That setting
 is called an **isolation level**. Stronger levels are safer but slower; weaker
 levels are faster but can corrupt data. A popular strategy is to mix them: give
 each kind of transaction the weakest (fastest) level that still keeps the whole
 workload correct.
 
-The catch: these strategies are almost always tested by assuming a failed
-transaction just *retries until it eventually succeeds*. Real systems can't do
-that. A transaction that charges a credit card, or a user who won't wait, puts a
+Problem: these strategies are almost always tested by assuming a failed
+transaction just *retries until it eventually succeeds*. Real systems often cannot do
+so. A transaction that charges a credit card, or a user who won't wait, puts a
 hard limit on retries.
 
-This project adds that missing limit — a **retry budget** — and measures what it
-costs. The headline finding is what we call the **retry tax**: even when every
-request eventually succeeds, under heavy load the database quietly throws away and
-re-runs **33–44% of its attempts**. That wasted work is invisible to studies that
-assume unlimited retries, but it's very real for the people paying for the
-servers.
 
 ## What we found
 
@@ -43,7 +36,7 @@ concurrency levels × four retry budgets × three contention levels × five repe
 - **Snapshot Isolation looks fast but fails more.** It aborts and produces
   user-visible errors more often than the stronger Serializable Snapshot
   Isolation (SSI).
-- **The "mixed" strategy matches, but doesn't beat, SSI under load** — once
+- **The "mixed" strategy (REPMILA + bounded retries) matches, but does not beat, SSI under load** — once
   retries are bounded, the advantage reported in earlier work shrinks.
 
 ## Repository layout
@@ -97,7 +90,7 @@ password differ.
 
 ### 4. Run a 30-second smoke test
 
-This proves everything is wired up correctly — it loads the schema, runs one tiny
+This confirms everything is wired up correctly — it loads the schema, runs one tiny
 measured cell, and prints a result:
 
 ```bash
@@ -123,7 +116,7 @@ laptop lid and terminal disconnects) and is **fully resumable** — if it's
 interrupted, just run the same command again and it skips the cells already
 finished. Run `scripts/run_full_experiment.sh --help` for options.
 
-Prefer to drive each step yourself? The manual equivalent is:
+If you prefer to run each step yourself manually, the equivalent steps are:
 
 ```bash
 python3 experiment/run_matrix.py --resume        # run/continue the 960-cell matrix
@@ -146,7 +139,7 @@ results/main/figures/*.png               generated charts
 
 ---
 
-## How it works
+## Method Summary: 
 
 The experiment is a grid. Each **cell** is one combination of these knobs, run
 for a fixed measurement window:
@@ -172,7 +165,7 @@ types over `Account`, `Savings`, and `Checking` tables). The benchmark and schem
 deliberately stay close to the artifact of **Vandevoort et al. (2025)** so the
 bounded-retry results are comparable to their retry-until-commit ones.
 
-The core pieces:
+Core pieces:
 
 - [`experiment/harness.py`](experiment/harness.py) — runs **one** cell: resets the
   database, fires concurrent workers under the chosen policy and retry budget, and
@@ -203,9 +196,9 @@ the local runner above produces the same dataset.
 
 ---
 
-## Credit
+## Acknowledgements
 
-Built by **Oliver Zhang** for SCDL3991 (University of Sydney), supervised by
-Alan Fekete. The benchmark extends the SmallBank setup of Vandevoort, Ketsman,
+This project was supervised by Professor Alan Fekete of the Database Research Group at the University of Sydney. 
+The benchmark extends the SmallBank setup of Vandevoort, Ketsman,
 and Neven (2025). See the [full report](report/RetryTaxBench.pdf) for references
 and methodology.
