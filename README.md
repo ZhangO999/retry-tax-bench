@@ -39,6 +39,57 @@ concurrency levels × four retry budgets × three contention levels × five repe
 - **The "mixed" strategy (REPMILA + bounded retries) matches, but does not beat, SSI under load** — once
   retries are bounded, the advantage reported in earlier work shrinks.
 
+The two tables and charts below show the headline numbers under the heaviest load
+tested (64 concurrent transactions, 90% of them hitting a contended hotspot), as
+the retry budget `N` grows from 1 to unbounded. All figures are generated directly
+from the shipped data with [`experiment/plot_results.py`](experiment/plot_results.py).
+
+### 1. Error rate — the failures users actually see
+
+The share of requests that **never commit**, even after exhausting the retry
+budget. This is the cost a strict retry cap imposes:
+
+| Policy | N=1 | N=3 | N=10 | Unbounded |
+|--------|----:|----:|-----:|----------:|
+| Read Committed (`rc`)      |  0.00 | 0.00 | 0.00 | 0.00 |
+| Snapshot Isolation (`si`)  | 16.54 | 7.35 | 1.15 | 0.00 |
+| Serializable (`ssi`)       | 10.22 | 3.81 | 0.27 | 0.00 |
+| Mixed (`mixed_robust`)     | 11.22 | 3.99 | 0.31 | 0.00 |
+
+<sub>Error rate (%) at MPL = 64, hotspot p = 0.9, means of 5 runs.</sub>
+
+![Error rate vs retry budget](results/main/figures/retry_sweep_error_rate_pct_p0p9_mpl64.png)
+
+More retries drive user-visible failures toward zero — which is exactly why
+retry-until-commit studies see no problem. Snapshot Isolation needs the most
+retries to get there.
+
+### 2. Abort rate — the retry tax
+
+The share of **attempts the database silently rolls back and re-runs**. Unlike the
+error rate, this *doesn't* fall as the retry budget grows — it stays high or even
+climbs, because more retries simply means more discarded attempts:
+
+| Policy | N=1 | N=3 | N=10 | Unbounded |
+|--------|----:|----:|-----:|----------:|
+| Read Committed (`rc`)      |  0.00 |  0.00 |  0.00 |  0.00 |
+| Snapshot Isolation (`si`)  | 36.11 | 41.09 | 43.74 | 43.79 |
+| Serializable (`ssi`)       | 27.62 | 33.03 | 35.03 | 35.50 |
+| Mixed (`mixed_robust`)     | 27.54 | 31.33 | 33.41 | 33.48 |
+
+<sub>Abort rate (%) at MPL = 64, hotspot p = 0.9, means of 5 runs.</sub>
+
+![Abort rate vs retry budget](results/main/figures/retry_sweep_abort_rate_pct_p0p9_mpl64.png)
+
+At unbounded retries — the point where the error rate is zero and everything
+"looks fine" — the database is still throwing away **33–44% of its attempts**.
+That is the retry tax made visible.
+
+> **Why is Read Committed always 0%?** PostgreSQL's Read Committed level never
+> raises serialization errors; it permits the weaker behaviour instead of
+> aborting. It pays no retry tax precisely because it offers the least protection
+> — a reminder that "zero aborts" is not the same as "correct".
+
 ## Repository layout
 
 ```text
