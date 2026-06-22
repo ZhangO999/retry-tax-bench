@@ -12,17 +12,23 @@ and empirically measures its effects on the performance of the *REPMILA* allocat
 
 ## Introduction
 
-When two people touch the same data at the same time, for instance, two transfers from
-the same bank account, a database has to decide how careful to be. That setting
-is called an **isolation level**. Stronger levels are safer but slower; weaker
-levels are faster but can corrupt data. A popular strategy is to mix them: give
-each kind of transaction the weakest (fastest) level that still keeps the whole
-workload correct.
+A database can run transactions at different isolation levels: settings
+that trade correctness for speed. Mixed-isolation schemes such as
+REPMILA (Vandevoort et al. 2025) give each kind of transaction the
+weakest and therefore fastest level that still keeps the workload
+as a whole serializable, and have been shown to beat uniformly
+strong Serializable Snapshot Isolation (SSI) on benchmarks such as
+SmallBank (Alomari et al., 2008). These results, however, assume that an
+aborted transaction simply retries until it eventually commits. Real 
+systems rarely allow this: a transaction with outside effects
+(such as charging a card), or a user unwilling to wait, limits how 
+many times it can be retried. 
 
-Problem: these strategies are almost always tested by assuming a failed
-transaction just *retries until it eventually succeeds*. Real systems often cannot do
-so. A transaction that charges a credit card, or a user who won't wait, puts a
-hard limit on retries.
+We introduce RetryTaxBench, a Python-based PostgreSQL benchmarking
+tool that adds a configurable cap on retries to the SmallBank setup
+of Vandevoort et al., and use it to measure how this cap changes the
+trade-off between speed and reliability across Read Committed, Snapshot
+Isolation, SSI, and a mixed allocation. 
 
 
 ## What we found
