@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tests:
+    name: Unit tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install test dependencies
+        run: python -m pip install --upgrade pip pytest
+
+      # The sampler and policy loader are pure logic, so they run without a
+      # database. Anything that needs PostgreSQL stays out of CI.
+      - name: Run tests
+        working-directory: experiment
+        run: python -m pytest tests -q
+
+      - name: Check every module compiles
+        run: python -m compileall -q experiment
