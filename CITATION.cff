@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use RetryTaxBench in your work, please cite it as below."
+title: "RetryTaxBench"
+abstract: >-
+  A PostgreSQL benchmarking harness that adds a configurable cap on the
+  number of times an aborted transaction may be retried (the retry budget)
+  to the SmallBank workload, and measures how that cap changes the
+  throughput/reliability trade-off across Read Committed, Snapshot
+  Isolation, Serializable Snapshot Isolation, and mixed isolation-level
+  allocations.
+type: software
+authors:
+  - family-names: Zhang
+    given-names: Oliver
+    affiliation: "University of Sydney"
+repository-code: "https://github.com/ZhangO999/retry-tax-bench"
+license: MIT
+keywords:
+  - databases
+  - transaction-processing
+  - isolation-levels
+  - postgresql
+  - smallbank
+  - benchmarking
