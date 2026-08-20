@@ -196,7 +196,7 @@ results/main/figures/*.png               generated charts
 
 ---
 
-## Method Summary: 
+## Method summary
 
 The experiment is a grid. Each **cell** is one combination of these knobs, run
 for a fixed measurement window:
@@ -250,6 +250,35 @@ See [`experiment/README.md`](experiment/README.md) for the full harness referenc
 To run the matrix faster, [`AWS_RUNBOOK.md`](AWS_RUNBOOK.md) describes sharding it
 across several EC2 instances and merging the results. This is entirely optional —
 the local runner above produces the same dataset.
+
+---
+
+## Running the tests
+
+The sampler and policy loader are covered by a small unit-test suite that needs
+no database:
+
+```bash
+cd experiment
+python -m pytest tests -q
+```
+
+See [`experiment/tests/README.md`](experiment/tests/README.md) for what is and
+is not covered.
+
+---
+
+## Citing this work
+
+Use the **Cite this repository** button in the sidebar, which is generated from
+[`CITATION.cff`](CITATION.cff), or cite the
+[report](report/RetryTaxBench.pdf) directly.
+
+---
+
+## License
+
+The code in this repository is released under the [MIT License](LICENSE).
 
 ---
 
